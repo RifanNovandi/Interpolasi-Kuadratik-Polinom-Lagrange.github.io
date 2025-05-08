@@ -7,9 +7,12 @@
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
-      max-width: 600px;
+      max-width: 800px;
       margin: auto;
-      background: #f0f8ff;
+      background: #f9f9ff;
+    }
+    h2, h3 {
+      color: #003366;
     }
     input {
       width: 80px;
@@ -18,22 +21,57 @@
     button {
       padding: 10px 20px;
       margin-top: 10px;
+      background-color: #003366;
+      color: white;
+      border: none;
       cursor: pointer;
+      border-radius: 5px;
     }
-    .result {
+    .result, .rumus, .identitas {
       margin-top: 20px;
       background: #fff;
-      padding: 10px;
+      padding: 15px;
       border-radius: 8px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    .rumus code {
+      background: #eee;
+      padding: 2px 5px;
+      display: block;
+      margin-bottom: 5px;
     }
   </style>
 </head>
 <body>
 
-  <h2>Kalkulator Interpolasi Kuadratik & Lagrange</h2>
+  <h2>KELOMPOK 2: Kalkulator Interpolasi Kuadratik & Polinom Lagrange</h2>
 
-  <p>Masukkan 3 titik data:</p>
+  <div class="identitas">
+    <h3>Identitas Kelompok</h3>
+    <p><strong>Nama:</strong> Rifan Novandi<br>
+       <strong>NIM:</strong> 2303010145</p>
+    <p><strong>Nama:</strong> Selvia Lovelin<br>
+       <strong>NIM:</strong> 2303010133</p>
+    <p><strong>Kelas:</strong> F-23</p>
+  </div>
+
+  <div class="rumus">
+    <h3>Rumus Interpolasi</h3>
+
+    <strong>Interpolasi Kuadratik (3 titik):</strong>
+    <code>
+      P₂(x) = y₀·(x−x₁)(x−x₂)/(x₀−x₁)(x₀−x₂) + <br>
+              y₁·(x−x₀)(x−x₂)/(x₁−x₀)(x₁−x₂) + <br>
+              y₂·(x−x₀)(x−x₁)/(x₂−x₀)(x₂−x₁)
+    </code>
+
+    <strong>Polinom Interpolasi Lagrange (umum):</strong>
+    <code>
+      L(x) = Σ [ yᵢ · ∏ (x − xⱼ)/(xᵢ − xⱼ) ], j ≠ i
+    </code>
+  </div>
+
+  <h3>Masukkan 3 titik data:</h3>
   <div>
     <label>x₀: <input type="number" id="x0"></label>
     <label>y₀: <input type="number" id="y0"></label><br>
@@ -43,7 +81,7 @@
     <label>y₂: <input type="number" id="y2"></label><br>
   </div>
 
-  <p>Masukkan nilai x yang ingin diinterpolasi:</p>
+  <h3>Masukkan nilai x yang ingin diinterpolasi:</h3>
   <input type="number" id="xInput">
 
   <br><br>
