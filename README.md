@@ -6,7 +6,7 @@ Proyek website sederhana untuk menghitung nilai interpolasi menggunakan metode:
 
 ---
 
-## 🧑‍💻 Kelompok 2 – Kelas F-23
+## 🧑‍💻 Kelompok 7 – Kelas F-23
 
 - **Rifan Novandi** (2303010145)  
 - **Selvia Lovelin** (2303010133)
