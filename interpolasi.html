@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Kalkulator Interpolasi Kuadratik & Lagrange</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+      background: #f0f8ff;
+    }
+    input {
+      width: 80px;
+      margin: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 20px;
+      background: #fff;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Kalkulator Interpolasi Kuadratik & Lagrange</h2>
+
+  <p>Masukkan 3 titik data:</p>
+  <div>
+    <label>x₀: <input type="number" id="x0"></label>
+    <label>y₀: <input type="number" id="y0"></label><br>
+    <label>x₁: <input type="number" id="x1"></label>
+    <label>y₁: <input type="number" id="y1"></label><br>
+    <label>x₂: <input type="number" id="x2"></label>
+    <label>y₂: <input type="number" id="y2"></label><br>
+  </div>
+
+  <p>Masukkan nilai x yang ingin diinterpolasi:</p>
+  <input type="number" id="xInput">
+
+  <br><br>
+  <button onclick="hitungInterpolasi()">Hitung Interpolasi</button>
+
+  <div class="result" id="output"></div>
+
+  <script>
+    function interpolasiKuadratik(x, x0, y0, x1, y1, x2, y2) {
+      const term1 = y0 * ((x - x1)*(x - x2)) / ((x0 - x1)*(x0 - x2));
+      const term2 = y1 * ((x - x0)*(x - x2)) / ((x1 - x0)*(x1 - x2));
+      const term3 = y2 * ((x - x0)*(x - x1)) / ((x2 - x0)*(x2 - x1));
+      return term1 + term2 + term3;
+    }
+
+    function lagrangeInterpolasi(x, xs, ys) {
+      let result = 0;
+      for (let i = 0; i < xs.length; i++) {
+        let term = ys[i];
+        for (let j = 0; j < xs.length; j++) {
+          if (j !== i) {
+            term *= (x - xs[j]) / (xs[i] - xs[j]);
+          }
+        }
+        result += term;
+      }
+      return result;
+    }
+
+    function hitungInterpolasi() {
+      const x0 = parseFloat(document.getElementById('x0').value);
+      const y0 = parseFloat(document.getElementById('y0').value);
+      const x1 = parseFloat(document.getElementById('x1').value);
+      const y1 = parseFloat(document.getElementById('y1').value);
+      const x2 = parseFloat(document.getElementById('x2').value);
+      const y2 = parseFloat(document.getElementById('y2').value);
+      const x = parseFloat(document.getElementById('xInput').value);
+
+      const hasilKuadratik = interpolasiKuadratik(x, x0, y0, x1, y1, x2, y2);
+      const hasilLagrange = lagrangeInterpolasi(x, [x0, x1, x2], [y0, y1, y2]);
+
+      document.getElementById('output').innerHTML = `
+        <strong>Hasil Interpolasi di x = ${x}:</strong><br>
+        - Kuadratik: <b>${hasilKuadratik.toFixed(5)}</b><br>
+        - Lagrange: <b>${hasilLagrange.toFixed(5)}</b>
+      `;
+    }
+  </script>
+
+</body>
+</html>
