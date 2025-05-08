@@ -23,16 +23,10 @@ Membantu pengguna menghitung nilai tak diketahui dengan pendekatan interpolasi n
 ## 🧠 Rumus yang Digunakan
 
 ### 📌 Interpolasi Kuadratik:
-\[
-P_2(x) = y_0 \cdot \frac{(x - x_1)(x - x_2)}{(x_0 - x_1)(x_0 - x_2)} + y_1 \cdot \frac{(x - x_0)(x - x_2)}{(x_1 - x_0)(x_1 - x_2)} + y_2 \cdot \frac{(x - x_0)(x - x_1)}{(x_2 - x_0)(x_2 - x_1)}
-\]
+
 
 ### 📌 Polinom Lagrange:
-\[
-L(x) = \sum_{i=0}^{n} y_i \cdot \prod_{\substack{j=0 \\ j \ne i}}^{n} \frac{(x - x_j)}{(x_i - x_j)}
-\]
 
----
 
 ## 🛠️ Fitur
 
