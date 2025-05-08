@@ -20,12 +20,10 @@ Membantu pengguna menghitung nilai tak diketahui dengan pendekatan interpolasi n
 
 ---
 
-## 🧠 Rumus yang Digunakan
+## 🧠 Rumus yang Digunakan:
 
-### 📌 Interpolasi Kuadratik:
-
-
-### 📌 Polinom Lagrange:
+### 📌 Interpolasi Kuadratik
+### 📌 Polinom Lagrange
 
 
 ## 🛠️ Fitur
