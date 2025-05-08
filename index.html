@@ -2,59 +2,93 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kalkulator Interpolasi Kuadratik & Lagrange</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
       padding: 20px;
       max-width: 800px;
       margin: auto;
-      background: #f0f4ff;
+      background: linear-gradient(to right, #c6e2ff, #e6ccff);
     }
     h2, h3 {
-      color: #003366;
+      color: #2c3e50;
     }
     input {
       width: 80px;
       margin: 5px;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
     }
     button {
       padding: 10px 20px;
       margin-top: 10px;
-      background-color: #003366;
+      background-color: #5a67d8;
       color: white;
       border: none;
       cursor: pointer;
-      border-radius: 5px;
+      border-radius: 8px;
+      font-weight: bold;
     }
+    button:hover {
+      background-color: #434190;
+    }
+
     .identitas {
       margin-top: 20px;
-      background: #e0f7fa;
+      background: #d0f0fd;
       padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.15);
     }
+
     .rumus {
       margin-top: 20px;
-      background: #fff8e1;
+      background: #fff3cd;
       padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.15);
     }
+
     .rumus code {
-      background: #fbe9e7;
+      background: #ffe5b4;
       padding: 5px;
       display: block;
       margin-bottom: 5px;
       border-radius: 4px;
+      font-family: monospace;
     }
+
     .result {
       margin-top: 20px;
-      background: #e8f5e9;
+      background: #d4edda;
       padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.15);
       font-weight: bold;
+      color: #155724;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 400px;
+      margin-top: 30px;
+    }
+
+    @media screen and (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+      input {
+        width: 100px;
+      }
+      button {
+        width: 100%;
+        font-size: 16px;
+      }
     }
   </style>
 </head>
@@ -105,6 +139,9 @@
 
   <div class="result" id="output"></div>
 
+  <!-- Grafik Interpolasi -->
+  <canvas id="grafikInterpolasi"></canvas>
+
   <script>
     function interpolasiKuadratik(x, x0, y0, x1, y1, x2, y2) {
       const term1 = y0 * ((x - x1)*(x - x2)) / ((x0 - x1)*(x0 - x2));
@@ -144,6 +181,38 @@
         - Kuadratik: <b>${hasilKuadratik.toFixed(5)}</b><br>
         - Lagrange: <b>${hasilLagrange.toFixed(5)}</b>
       `;
+
+      // Menampilkan grafik
+      const ctx = document.getElementById('grafikInterpolasi').getContext('2d');
+      const grafik = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [x0, x1, x2], // titik input
+          datasets: [{
+            label: 'Interpolasi Kuadratik',
+            data: [y0, y1, y2], // hasil y dari input
+            borderColor: '#5a67d8',
+            fill: false,
+            pointBackgroundColor: '#5a67d8',
+          }, {
+            label: 'Interpolasi Lagrange',
+            data: [hasilKuadratik, hasilLagrange], // hasil yang dihitung
+            borderColor: '#e67e22',
+            fill: false,
+            pointBackgroundColor: '#e67e22',
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            x: {
+              ticks: {
+                maxTicksLimit: 6
+              }
+            }
+          }
+        }
+      });
     }
   </script>
 
