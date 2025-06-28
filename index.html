@@ -192,13 +192,36 @@
         - Lagrange: <b>${hasilLagrange.toFixed(5)}</b>
       `;
 
-      document.getElementById('langkahDetail').innerHTML = `
-        <strong>Langkah Perhitungan Kuadratik:</strong><br>
-        Term 1: ${y0} × (${x}−${x1})×(${x}−${x2}) ÷ (${x0}−${x1})×(${x0}−${x2}) = <b>${term1.toFixed(5)}</b><br>
-        Term 2: ${y1} × (${x}−${x0})×(${x}−${x2}) ÷ (${x1}−${x0})×(${x1}−${x2}) = <b>${term2.toFixed(5)}</b><br>
-        Term 3: ${y2} × (${x}−${x0})×(${x}−${x1}) ÷ (${x2}−${x0})×(${x2}−${x1}) = <b>${term3.toFixed(5)}</b><br>
-        <br>Hasil Akhir: <b>${hasilKuadratik.toFixed(5)}</b>
+      const langkahHTML = `
+        <h3>Langkah Penyelesaian Interpolasi Kuadratik:</h3>
+        <p><strong>1. Diketahui titik:</strong><br>
+          (x₀, y₀) = (${x0}, ${y0})<br>
+          (x₁, y₁) = (${x1}, ${y1})<br>
+          (x₂, y₂) = (${x2}, ${y2})<br>
+          Nilai x yang dicari: <b>${x}</b></p>
+
+        <p><strong>2. Substitusi ke dalam rumus:</strong></p>
+
+        <p><b>Term 1:</b><br>
+        = ${y0} × (${x}−${x1}) × (${x}−${x2}) ÷ (${x0}−${x1}) × (${x0}−${x2})<br>
+        = ${y0} × (${(x - x1).toFixed(2)}) × (${(x - x2).toFixed(2)}) ÷ (${x0 - x1}) × (${x0 - x2})<br>
+        = ${y0} × ${(x - x1)*(x - x2).toFixed(5)} ÷ ${(x0 - x1)*(x0 - x2)} = <b>${term1.toFixed(5)}</b></p>
+
+        <p><b>Term 2:</b><br>
+        = ${y1} × (${x}−${x0}) × (${x}−${x2}) ÷ (${x1}−${x0}) × (${x1}−${x2})<br>
+        = ${y1} × (${(x - x0).toFixed(2)}) × (${(x - x2).toFixed(2)}) ÷ (${x1 - x0}) × (${x1 - x2})<br>
+        = ${y1} × ${(x - x0)*(x - x2).toFixed(5)} ÷ ${(x1 - x0)*(x1 - x2)} = <b>${term2.toFixed(5)}</b></p>
+
+        <p><b>Term 3:</b><br>
+        = ${y2} × (${x}−${x0}) × (${x}−${x1}) ÷ (${x2}−${x0}) × (${x2}−${x1})<br>
+        = ${y2} × (${(x - x0).toFixed(2)}) × (${(x - x1).toFixed(2)}) ÷ (${x2 - x0}) × (${x2 - x1})<br>
+        = ${y2} × ${(x - x0)*(x - x1).toFixed(5)} ÷ ${(x2 - x0)*(x2 - x1)} = <b>${term3.toFixed(5)}</b></p>
+
+        <p><strong>3. Hasil akhir:</strong><br>
+        P₂(${x}) = ${term1.toFixed(5)} + ${term2.toFixed(5)} + ${term3.toFixed(5)} = <b>${hasilKuadratik.toFixed(5)}</b></p>
       `;
+
+      document.getElementById('langkahDetail').innerHTML = langkahHTML;
 
       const minX = Math.min(x0, x1, x2) - 2;
       const maxX = Math.max(x0, x1, x2) + 2;
