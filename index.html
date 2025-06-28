@@ -9,17 +9,17 @@
     body {
       font-family: 'Segoe UI', sans-serif;
       padding: 20px;
-      max-width: 800px;
+      max-width: 900px;
       margin: auto;
       background: linear-gradient(to right, #c6e2ff, #e6ccff);
       text-align: center;
     }
     h2, h3 {
       color: #2c3e50;
-      font-size: 28px; /* Ukuran teks lebih besar */
+      font-size: 28px;
     }
     p {
-      font-size: 18px; /* Ukuran teks lebih besar */
+      font-size: 18px;
     }
     input {
       width: 80px;
@@ -37,29 +37,20 @@
       cursor: pointer;
       border-radius: 8px;
       font-weight: bold;
-      font-size: 18px; /* Ukuran teks tombol lebih besar */
+      font-size: 18px;
     }
     button:hover {
       background-color: #434190;
     }
-
-    .identitas {
+    .identitas, .rumus, .result {
       margin-top: 20px;
-      background: #d0f0fd;
       padding: 15px;
       border-radius: 10px;
       box-shadow: 0 0 8px rgba(0,0,0,0.15);
-      text-align: left; /* Menjaga identitas tetap di kiri */
+      text-align: left;
     }
-
-    .rumus {
-      margin-top: 20px;
-      background: #fff3cd;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.15);
-    }
-
+    .identitas { background: #d0f0fd; }
+    .rumus { background: #fff3cd; }
     .rumus code {
       background: #ffe5b4;
       padding: 5px;
@@ -67,37 +58,23 @@
       margin-bottom: 5px;
       border-radius: 4px;
       font-family: monospace;
-      font-size: 16px; /* Ukuran font rumus sedikit lebih besar */
+      font-size: 16px;
     }
-
     .result {
-      margin-top: 20px;
       background: #d4edda;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.15);
       font-weight: bold;
       color: #155724;
-      font-size: 20px; /* Ukuran font hasil lebih besar */
+      font-size: 18px;
     }
-
     canvas {
       width: 100% !important;
       height: 400px;
       margin-top: 30px;
     }
-
     @media screen and (max-width: 600px) {
-      body {
-        padding: 10px;
-      }
-      input {
-        width: 100px;
-      }
-      button {
-        width: 100%;
-        font-size: 18px;
-      }
+      body { padding: 10px; }
+      input { width: 100px; }
+      button { width: 100%; font-size: 18px; }
     }
   </style>
 </head>
@@ -116,18 +93,38 @@
 
   <div class="rumus">
     <h3>Rumus Interpolasi</h3>
-
     <strong>Interpolasi Kuadratik (3 titik):</strong>
     <code>
-      P₂(x) = y₀·(x−x₁)(x−x₂)/(x₀−x₁)(x₀−x₂) + <br>
-              y₁·(x−x₀)(x−x₂)/(x₁−x₀)(x₁−x₂) + <br>
-              y₂·(x−x₀)(x−x₁)/(x₂−x₀)(x₂−x₁)
+      P₂(x) = y₀·(x−x₁)(x−x₂)/(x₀−x₁)(x₀−x₂) +<br>
+             y₁·(x−x₀)(x−x₂)/(x₁−x₀)(x₁−x₂) +<br>
+             y₂·(x−x₀)(x−x₁)/(x₂−x₀)(x₂−x₁)
     </code>
 
     <strong>Polinom Interpolasi Lagrange (umum):</strong>
     <code>
       L(x) = Σ [ yᵢ · ∏ (x − xⱼ)/(xᵢ − xⱼ) ], j ≠ i
     </code>
+  </div>
+
+  <div class="rumus">
+    <h3>Langkah Penyelesaian Interpolasi</h3>
+    <p><strong>Langkah-langkah Interpolasi Kuadratik:</strong></p>
+    <ol>
+      <li>Masukkan tiga titik data: (x₀, y₀), (x₁, y₁), dan (x₂, y₂).</li>
+      <li>Tentukan nilai x yang ingin dicari y-nya.</li>
+      <li>Gunakan rumus kuadratik dan hitung tiga suku (term).</li>
+      <li>Jumlahkan ketiga suku untuk mendapatkan hasil akhir.</li>
+    </ol>
+
+    <p><strong>Langkah-langkah Interpolasi Lagrange:</strong></p>
+    <ol>
+      <li>Masukkan titik data dan nilai x yang ingin dihitung.</li>
+      <li>Untuk setiap titik, hitung Lᵢ(x) sebagai hasil dari:
+        <br>(x−xⱼ)/(xᵢ−xⱼ), dikalikan dengan yᵢ, untuk semua j ≠ i.</li>
+      <li>Jumlahkan seluruh Lᵢ(x) untuk mendapatkan nilai L(x).</li>
+    </ol>
+
+    <p>Catatan: Untuk tiga titik, hasil dari Lagrange dan Kuadratik akan sama persis.</p>
   </div>
 
   <h3>Masukkan 3 titik data:</h3>
@@ -141,14 +138,13 @@
   </div>
 
   <h3>Masukkan nilai x yang ingin diinterpolasi:</h3>
-  <input type="number" id="xInput">
+  <input type="number" id="xInput"><br><br>
 
-  <br><br>
   <button onclick="hitungInterpolasi()">Hitung Interpolasi</button>
 
   <div class="result" id="output"></div>
+  <div class="result" id="langkahDetail"></div>
 
-  <!-- Grafik Interpolasi -->
   <canvas id="grafikInterpolasi"></canvas>
 
   <script>
@@ -156,7 +152,7 @@
       const term1 = y0 * ((x - x1)*(x - x2)) / ((x0 - x1)*(x0 - x2));
       const term2 = y1 * ((x - x0)*(x - x2)) / ((x1 - x0)*(x1 - x2));
       const term3 = y2 * ((x - x0)*(x - x1)) / ((x2 - x0)*(x2 - x1));
-      return term1 + term2 + term3;
+      return { hasil: term1 + term2 + term3, term1, term2, term3 };
     }
 
     function lagrangeInterpolasi(x, xs, ys) {
@@ -182,7 +178,12 @@
       const y2 = parseFloat(document.getElementById('y2').value);
       const x = parseFloat(document.getElementById('xInput').value);
 
-      const hasilKuadratik = interpolasiKuadratik(x, x0, y0, x1, y1, x2, y2);
+      if ([x0, y0, x1, y1, x2, y2, x].some(isNaN)) {
+        alert("Mohon isi semua nilai terlebih dahulu!");
+        return;
+      }
+
+      const { hasil: hasilKuadratik, term1, term2, term3 } = interpolasiKuadratik(x, x0, y0, x1, y1, x2, y2);
       const hasilLagrange = lagrangeInterpolasi(x, [x0, x1, x2], [y0, y1, y2]);
 
       document.getElementById('output').innerHTML = `
@@ -191,39 +192,54 @@
         - Lagrange: <b>${hasilLagrange.toFixed(5)}</b>
       `;
 
-      // Menampilkan grafik
+      document.getElementById('langkahDetail').innerHTML = `
+        <strong>Langkah Perhitungan Kuadratik:</strong><br>
+        Term 1: ${y0} × (${x}−${x1})×(${x}−${x2}) ÷ (${x0}−${x1})×(${x0}−${x2}) = <b>${term1.toFixed(5)}</b><br>
+        Term 2: ${y1} × (${x}−${x0})×(${x}−${x2}) ÷ (${x1}−${x0})×(${x1}−${x2}) = <b>${term2.toFixed(5)}</b><br>
+        Term 3: ${y2} × (${x}−${x0})×(${x}−${x1}) ÷ (${x2}−${x0})×(${x2}−${x1}) = <b>${term3.toFixed(5)}</b><br>
+        <br>Hasil Akhir: <b>${hasilKuadratik.toFixed(5)}</b>
+      `;
+
+      const minX = Math.min(x0, x1, x2) - 2;
+      const maxX = Math.max(x0, x1, x2) + 2;
+      const labels = [];
+      const dataK = [], dataL = [];
+
+      for (let xi = minX; xi <= maxX; xi += 0.2) {
+        labels.push(xi.toFixed(2));
+        dataK.push(interpolasiKuadratik(xi, x0, y0, x1, y1, x2, y2).hasil);
+        dataL.push(lagrangeInterpolasi(xi, [x0, x1, x2], [y0, y1, y2]));
+      }
+
       const ctx = document.getElementById('grafikInterpolasi').getContext('2d');
-      const grafik = new Chart(ctx, {
+      if (window.myChart) window.myChart.destroy();
+      window.myChart = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: [x0, x1, x2], // titik input
+          labels,
           datasets: [{
             label: 'Interpolasi Kuadratik',
-            data: [y0, y1, y2], // hasil y dari input
+            data: dataK,
             borderColor: '#5a67d8',
             fill: false,
-            pointBackgroundColor: '#5a67d8',
+            tension: 0.3
           }, {
             label: 'Interpolasi Lagrange',
-            data: [hasilKuadratik, hasilLagrange], // hasil yang dihitung
+            data: dataL,
             borderColor: '#e67e22',
             fill: false,
-            pointBackgroundColor: '#e67e22',
+            tension: 0.3
           }]
         },
         options: {
           responsive: true,
           scales: {
-            x: {
-              ticks: {
-                maxTicksLimit: 6
-              }
-            }
+            x: { title: { display: true, text: 'x' }},
+            y: { title: { display: true, text: 'f(x)' }}
           }
         }
       });
     }
   </script>
-
 </body>
 </html>
